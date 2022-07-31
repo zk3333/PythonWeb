@@ -1,0 +1,10 @@
+base_url: http://192.168.50.218
+login_url: /login
+
+log:
+  # 日志名称
+  log_name: logs_
+  # 日志级别
+  log_level: info
+  #日志输出格式
+  log_format: '[%(asctime)s] [%(filename)s]->%(funcName)s line:%(lineno)d [%(levelname)s] ---> %(message)s'
