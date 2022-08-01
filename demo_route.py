@@ -10,10 +10,20 @@
 -------------------------------------------------
 """
 # 导包
+import json
 import random
 from flask import Flask, request
 
 app = Flask(__name__)
+
+def read_jsondata(keyvalue):
+    """
+    获取json数据
+    :return:
+    """
+    with open(file='./login_msg.json', mode='r', encoding='utf-8') as json_file:
+        for msg_data in json.load(json_file):
+            return msg_data[keyvalue]
 
 
 def getRandomNum():
@@ -24,23 +34,15 @@ def getRandomNum():
 def loginApi():
     username = request.json.get('username')
     password = request.json.get('password')
+    result_data = None
     if username == 'admin' and password == '123456':
-        return {
-            'data': {
-                'status': 'success',
-                'code': 0,
-                'msg': '登录成功！！！',
-                'token': getRandomNum()
-            }
-        }
+        return read_jsondata('success')
+    elif username == 'admin' and password != '123456':
+        return read_jsondata('pwd_error')
+    elif username != 'admin' and password == '123456':
+        return read_jsondata('user_error')
     else:
-        return {
-            'data': {
-                'status': 'fail',
-                'code': -1,
-                'msg': '用户名或者密码错误，登录失败！！！'
-            }
-        }
+        return read_jsondata('error')
 
 
 if __name__ == '__main__':
